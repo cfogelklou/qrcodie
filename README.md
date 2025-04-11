@@ -25,7 +25,7 @@ This app is a **client-side web application** implementing an infinite Mad Libs-
 - The app loads with a simple interface:
   - **API Key Input:** An input field or settings area to enter and save the LLM API key.
   - **Theme Input:** An optional input field for a story theme/topic.
-  - **Generate Button:** A "Generate Story Prompt" button.
+  - **Generate Button:** A "Generate Story" button.
   - **Placeholder Area:** An area where prompts for words will appear.
   - **Final Story Area:** An initially hidden or empty area where the final story will be displayed.
 
@@ -41,7 +41,7 @@ This app is a **client-side web application** implementing an infinite Mad Libs-
 - **Theme Choice:**  
   - The user can optionally enter a story theme (e.g., "space adventure", "pirate treasure hunt", "talking animals"). If left blank, use a generic or random theme.
 - **API Call:**  
-  - Clicking "Generate Story Prompt" triggers an API call to the chosen LLM service.
+  - Clicking "Generate Story" triggers an API call to the chosen LLM service.
 - **AI Prompt Engineering:**  
   - Request the LLM to generate a short story (100-200 words) based on the provided or random theme.
   - **Placeholder Inclusion:** The story must include a variety of placeholders, embedded directly in the text using a consistent format, such as:

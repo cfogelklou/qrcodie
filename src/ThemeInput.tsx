@@ -16,7 +16,7 @@ function ThemeInput({ onGenerate }: { onGenerate: (theme: string) => void }) {
         value={theme}
         onChange={(e) => setTheme(e.target.value)}
       />
-      <button onClick={handleGenerate}>Generate Story Prompt</button>
+      <button onClick={handleGenerate}>Generate Story</button>
     </div>
   );
 }
