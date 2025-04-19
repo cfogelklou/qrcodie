@@ -1,8 +1,8 @@
 {
-  "name": "locolibs",
+  "name": "measuredmunch",
   "private": true,
   "version": "0.1.0",
-  "homepage": "https://applicaudia.se/locolibs",
+  "homepage": "https://applicaudia.se/measuredmunch",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

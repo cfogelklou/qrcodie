@@ -1,4 +1,4 @@
-# Crazy-Stories (Enhanced for GitHub Copilot Agent)
+# Measured-Munch (Enhanced for GitHub Copilot Agent)
 
 ## 1. Project Goal & Introduction
 
