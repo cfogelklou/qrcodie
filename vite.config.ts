@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/measuredmunch/', // Set the base path for hosting in a subdirectory
+  base: '.', // Set the base path for hosting in a subdirectory
   plugins: [
     react(),
     VitePWA({
