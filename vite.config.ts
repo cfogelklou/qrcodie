@@ -12,7 +12,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'QRCodie',
-        short_name: 'Munch',
+        short_name: 'QRCodie',
         description: 'A simple intermittent-fasting PWA.',
         start_url: '.',
         display: 'standalone',
