@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import './App.css'
+import { useCounter } from './context'
+import './styles.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { count, increment } = useCounter();
 
   return (
     <div>
-      <h1>Measured Munch</h1>
+      <h1>QRCodie</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={increment}>
           count is {count}
         </button>
         <p>
