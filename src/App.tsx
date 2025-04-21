@@ -7,6 +7,9 @@ import { useLSContext } from './context';
 import { dbg } from './debug';
 import { formatTime, MIN_FASTING_MS } from './hooks';
 
+// Capture refresh time
+const appStartTime = Date.now();
+
 function App() {
   const {
     fastingSettings,
@@ -38,7 +41,7 @@ function App() {
   const timeRemaining = useCountdown(fastingState, fastingSettings);
   dbg.log('Time remaining:', timeRemaining);
 
-  const stopFast = () => {
+  const stopFast = useCallback(() => {
     dbg.log('Stopping fast...');
 
     // If fasting is active and not complete, record it as incomplete
@@ -62,13 +65,17 @@ function App() {
       isActive: false,
       startTime: null,
     });
-  };
+  }, [fastingState, setFastingState, addHistoryRecord, fastingSettings]);
 
   useEffect(() => {
     if (timeRemaining.isComplete && fastingState.isActive && fastingState.startTime) {
+      // Use the minimum of fastDurationMs and appDurationMs to ensure the fasting duration
+      // does not exceed the time the app has been running (e.g., if the app was restarted).
       const fastDurationMs = Date.now() - fastingState.startTime;
+      const appDurationMs = Date.now() - appStartTime;
+      const durMs = Math.min(fastDurationMs, appDurationMs);
       // Only stop if the fast has been active for at least a couple seconds
-      if (fastDurationMs > MIN_FASTING_MS) {
+      if (durMs > MIN_FASTING_MS) {
         dbg.log('Fasting complete! Stopping fast...');
         stopFast();
       }
