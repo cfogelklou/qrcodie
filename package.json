@@ -1,8 +1,8 @@
 {
-  "name": "measuredmunch",
+  "name": "qrcodie",
   "private": true,
   "version": "0.1.0",
-  "homepage": "https://applicaudia.se/measuredmunch",
+  "homepage": "https://applicaudia.se/qrcodie",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

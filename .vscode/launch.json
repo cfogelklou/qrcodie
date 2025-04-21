@@ -8,7 +8,7 @@
       "name": "Launch Chrome",
       "request": "launch",
       "type": "chrome",
-      "url": "http://localhost:5173/measuredmunch/",
+      "url": "http://localhost:5173/qrcodie/",
       "webRoot": "${workspaceFolder}"
     }
   ]

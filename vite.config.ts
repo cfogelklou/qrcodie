@@ -5,13 +5,13 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/measuredmunch/', // Set the base path for hosting in a subdirectory
+  base: '/qrcodie/', // Set the base path for hosting in a subdirectory
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Measured Munch',
+        name: 'QRCodie',
         short_name: 'Munch',
         description: 'A simple intermittent-fasting PWA.',
         start_url: '.',
@@ -19,17 +19,17 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: '/measuredmunch/icon-192x192.png',
+            src: '/qrcodie/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/measuredmunch/icon-512x512.png',
+            src: '/qrcodie/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: '/measuredmunch/icon.svg',
+            src: '/qrcodie/icon.svg',
             sizes: 'any',
             type: 'image/svg+xml',
           },
