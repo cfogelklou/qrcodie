@@ -4,7 +4,7 @@ export interface FastSettings {
 
 export interface FastState {
   isActive: boolean;
-  startTime: number | null;
+  startTime: number | null; // Epoch milliseconds
 }
 
 export type TimeRemaining = {
@@ -13,3 +13,14 @@ export type TimeRemaining = {
   seconds: number;
   isComplete: boolean;
 };
+
+export interface FastingRecord {
+  startTime: number; // Epoch milliseconds
+  endTime: number; // Epoch milliseconds
+  durationMs: number; // Duration in milliseconds
+  targetMs: number; // Target duration in milliseconds
+}
+
+export interface FastingHistory {
+  records: FastingRecord[];
+}
