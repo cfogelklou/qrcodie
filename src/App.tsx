@@ -55,8 +55,8 @@ function App() {
           <input
             type='range'
             min={100}
-            max={500}
-            step={10}
+            max={1024}
+            step={4}
             value={qrSize}
             onChange={(e) => setQrSize(Number(e.target.value))}
           />
