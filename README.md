@@ -1,116 +1,196 @@
-# QR-Codie
+# README.md - QRCodie PWA Specification
 
-## 1. Project Goal & Introduction
+## 1. Project Overview
 
-This app is a **client-side web application** implementing a simple intermittent fasting PWA. Use the app to determine if you are allowed to start eating again by tracking your fasting period.
+**Project Name:** QRCodie
 
-## 2. Technology Stack
+**Description:** QRCodie is a modern, simple, and fast Progressive Web App (PWA) built using Vite, React, and TypeScript. Its primary function is to generate QR codes in real-time from user-provided text data. The application emphasizes ease of use, performance, and offers customization options including styling, scaling, and printing of the generated QR codes.
 
-- **Frontend:**
-  - React with TypeScript, Vite
-  - Standard browser APIs
-  - NVM (use 22), bun 1.2.9+
-- **Styling:**
-  - Minimal CSS for a modern, responsive layout
+**Target Platform:** Web (Desktop & Mobile), installable as a PWA.
 
-## 3. Core Functionality & User Flow
+**Goal:** This specification document serves as a blueprint for an AI agent to generate the complete source code for the QRCodie application.
 
-### Initial State
+## 2. Core Features
 
-- User launches the app and is prompted with a clean, modern interface.
-- The main view shows an option to start a fast, and if a fast is already active, a countdown timer displaying the remaining time.
+- **Real-time QR Code Generation:** The QR code should update instantly or with minimal delay as the user types text into the input field.
+- **QR Code Display:** A clear and prominent display area for the generated QR code.
+- **Customizable Scaling:** A user control (e.g., slider or number input) to adjust the visual size (dimensions) of the displayed QR code.
+- **Print Functionality:** A dedicated "Print" button that triggers the browser's print dialog, optimized to print only the QR code or a clean view containing it.
+- **QR Code Styling:** Options for the user to select different visual styles for the QR code (e.g., dot shapes, corner styles, foreground/background colors).
+- **PWA Capabilities:** Implementation of essential PWA features:
+  - Service worker for basic offline caching (app shell).
+  - Web App Manifest for installability (add to home screen).
+- **Responsive & Modern UI:** A clean, intuitive, and aesthetically pleasing interface that adapts seamlessly to various screen sizes (mobile, tablet, desktop).
 
-### Starting a Fast
+## 3. Technology Stack
 
-- **Action:** User clicks the “Start Fast” button.
-- **Data Storage:** The current epoch time is saved in Local Storage.
-- **Countdown:** A timer starts that calculates the remaining fasting period based on the preset fasting duration.
+- **Build Tool:** Vite (latest stable version)
+- **Framework/Library:** React (v18+ using functional components and hooks)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS (Recommended for utility-first, responsive design. Configure `tailwind.config.js` and `postcss.config.js`).
+- **QR Code Generation Library:** **`qr-code-styling`**
+  - **Reasoning:** This library is chosen for its high performance (renders to Canvas), extensive styling capabilities (dots, corners, gradients, colors, logos - though we'll start simple), and good compatibility with React/TypeScript.
+- **PWA Implementation:** `vite-plugin-pwa` (Configure this plugin within `vite.config.ts` for manifest generation and service worker integration).
+- **State Management:** React Context API or Zustand for managing shared state (input text, size, style options) if prop drilling becomes complex, otherwise standard component state is sufficient for this simple app.
 
-### Countdown Timer
+## 4. Project Structure (Suggested)
 
-- **Display:** The timer shows the remaining hours and minutes until the fasting period ends.
-- **Calculation:** Uses the saved epoch time from Local Storage and the duration setting to render a live countdown.
+/public//icons/ # App icons (e.g., 192x192, 512x512) for PWA manifesticon-192x192.pngicon-512x512.pngfavicon.ico # Standard faviconmanifest.json # PWA manifest (can be auto-generated/managed by vite-plugin-pwa)/src//components/InputSection.tsx # Component containing the text input areaQRCodeDisplay.tsx # Component responsible for rendering the QR code canvasControlsSection.tsx # Component housing Scale, Style selectors, and Print button/hooks/useQRCode.ts # (Recommended) Custom hook encapsulating qr-code-styling logic/contexts/ # (Optional) If using Context API for state managementAppContext.tsx/styles/index.css # Main CSS file including Tailwind directives (@tailwind base; @tailwind components; @tailwind utilities;) and print styles/lib/ # Utility functions or constants if neededqrStyles.ts # (Optional) Define style presetsApp.tsx # Main application component: layout, state orchestrationmain.tsx # Application entry point (renders App)/vite.config.ts # Vite configuration (React plugin, PWA plugin)/tailwind.config.js # Tailwind CSS configuration/postcss.config.js # PostCSS configuration (for Tailwind)/tsconfig.json # TypeScript configuration/tsconfig.node.json # TypeScript Node configuration (for Vite config)/package.json/.gitignoreREADME.md # This file
 
-### Finishing a Fast
+## 5. Component Specifications
 
-- When the countdown reaches zero, the UI updates to indicate that the eating window is open.
-- The user is prompted or allowed to reset/start a new fasting period.
+### 5.1. `App.tsx`
 
-## 4. UX Design Specifications
+- **Responsibilities:**
+  - Define the main application layout (e.g., using Tailwind CSS flexbox/grid).
+  - Manage the core application state:
+    - `inputText`: `string` (Text data from the user). Default: empty string or a placeholder like "Enter text here".
+    - `qrSize`: `number` (Pixel dimension for the QR code width/height). Default: e.g., `300`.
+    - `qrStyleOptions`: `object` (Configuration object for `qr-code-styling`, reflecting selected styles). Default: basic square dots, black on white.
+  - Render `InputSection`, `ControlsSection`, and `QRCodeDisplay`.
+  - Pass state values and update functions as props to child components.
 
-### UI/UX Principles
+### 5.2. `InputSection.tsx`
 
-- **Modern & Minimalist:**
+- **Props:** `inputText: string`, `setInputText: (text: string) => void`
+- **Responsibilities:**
+  - Render a `<textarea>` element for multi-line input.
+  - Include a `placeholder` attribute (e.g., "Enter text or URL to generate QR code").
+  - Use Tailwind CSS for styling (padding, border, rounded corners).
+  - On change (`onChange` event), call `setInputText` to update the state in `App.tsx`.
+  - Consider adding a label for accessibility.
 
-  - Clean layout with ample whitespace.
-  - Minimal dependencies to keep the application lightweight.
-  - Use of CSS Flexbox/Grid for responsive design.
+### 5.3. `QRCodeDisplay.tsx`
 
-- **Responsive Design:**
-  - User interface adapts to mobile, tablet, and desktop views.
-  - Readable typography and touch-friendly controls.
+- **Props:** `text: string`, `size: number`, `styleOptions: object`
+- **Responsibilities:**
+  - Render a container `div` (e.g., with `id="qr-code-container"`) where the QR code canvas will be appended. This `div` should also have an `id` suitable for printing (e.g., `id="qr-code-print-area"`).
+  - Utilize the `useQRCode` custom hook (or manage `qr-code-styling` instance directly within `useEffect`).
+  - The hook/component should:
+    - Instantiate `QRCodeStyling` on mount.
+    - Use `useEffect` hooks to watch for changes in `text`, `size`, and `styleOptions` props.
+    - Call the `qrCodeInstance.update({...})` method with the new options when props change.
+    - Call `qrCodeInstance.append(containerRef.current)` to attach the canvas to the container div.
+    - Handle cleanup: ensure the QR code instance is properly handled on unmount if necessary.
+  - Style the container using Tailwind CSS (e.g., center the QR code within it, add padding/margins).
 
-### Key Components
+### 5.4. `ControlsSection.tsx`
 
-1. **Hero Section:**
+- **Props:** `size: number`, `setSize: (size: number) => void`, `styleOptions: object`, `setStyleOptions: (options: object) => void`, `onPrint: () => void`
+- **Responsibilities:**
+  - Render controls grouped logically (e.g., using flexbox and Tailwind spacing).
+  - **Scale Control:**
+    - A labeled slider (`<input type="range">`) to control `size`. Define `min`, `max`, `step`.
+    - Display the current size value next to the slider.
+    - On change, call `setSize`.
+  - **Style Controls:**
+    - Dropdown (`<select>`) or radio buttons for "Dot Style" (e.g., `square`, `dots`, `rounded`, `classy`, `extra-rounded`). Update `styleOptions.dotsOptions.type`.
+    - (Optional) Color pickers (`<input type="color">`) for "Foreground Color" and "Background Color". Update `styleOptions.dotsOptions.color` and `styleOptions.backgroundOptions.color`. Start with just dot style if complexity is a concern.
+    - On change, update the relevant part of the `styleOptions` object by calling `setStyleOptions`.
+  - **Print Button:**
+    - A styled `<button>` (using Tailwind CSS).
+    - Label: "Print QR Code".
+    - On click (`onClick`), call the `onPrint` function passed from `App.tsx`.
 
-   - Central area with the application title and a brief description of the fasting concept.
-   - “Start Fast” button prominently displayed.
+### 5.5. `useQRCode.ts` (Custom Hook - Recommended)
 
-2. **Countdown Timer:**
+- **Purpose:** Encapsulate the logic for managing the `qr-code-styling` instance.
+- **Parameters:** `containerRef: React.RefObject<HTMLDivElement>`, `options: object` (containing text, size, style)
+- **Functionality:**
+  - Manages the `QRCodeStyling` instance using `useRef`.
+  - Uses `useEffect` to initialize the instance and append it to the `containerRef`.
+  - Uses `useEffect` to watch for changes in `options` and call `qrCodeInstance.update()`.
+  - Handles cleanup on unmount.
+- **Returns:** (Optional) Could return the instance if direct access is needed elsewhere, but primarily manages side effects.
 
-   - When a fast is active, show a large, easy-to-read timer.
-   - Timer dynamically updates to show hours and minutes remaining.
-   - Clearly indicate when the fasting period is over, potentially with a color change or animation.
+## 6. Functionality Details
 
-3. **Settings Panel:**
+### 6.1. QR Code Generation (`qr-code-styling`)
 
-   - Accessible either from a dedicated settings icon or on an initial setup screen.
-   - **Fasting Duration:**
-     - Input to set the number of fasting hours (or alternatively, the length of the eating window).
-     - The duration setting is saved locally and used for initializing the countdown timer.
-   - **Data Persistence:**
-     - Utilize Local Storage to record the epoch time when the fast was started and the user’s fasting settings.
-     - Option to reset or adjust settings if required.
+- Import `QRCodeStyling` from the library.
+- Create an instance: `new QRCodeStyling({ width: ..., height: ..., data: ..., ...styleOptions })`.
+- Use `qrInstance.append(domElement)` to attach the generated canvas.
+- Use `qrInstance.update(newOptions)` to modify the QR code without recreating the canvas element (more performant).
 
-4. **Notifications & Feedback:**
-   - Visual cues when the fast starts and ends.
-   - Optionally, a simple sound or vibration alert (using browser APIs) to signal the transition.
+### 6.2. Printing
 
-### Interaction Flow
+- The `onPrint` function (likely defined in `App.tsx` and passed to `ControlsSection`) should simply call `window.print()`.
+- Crucially, define print-specific CSS using `@media print` in `src/styles/index.css`:
 
-- **On Load:**
-  - Check Local Storage for any active fast session.
-  - If an active session is found, calculate the remaining time and display the countdown.
-  - If no active session, display the “Start Fast” prompt with clear instructions.
-- **On User Action:**
-  - When “Start Fast” is clicked, store the current epoch time and launch the countdown.
-  - Allow users to modify fasting settings via the settings panel before starting a fast.
-- **Post Fast:**
-  - After the countdown ends, update the interface to indicate the fast is complete.
-  - Provide an option to restart the fast or go to the settings panel.
+  - Hide all elements by default (`body * { visibility: hidden; }`).
+  - Make the QR code container (`#qr-code-print-area`) and its contents visible (`visibility: visible;`).
+  - Position the container to take up the print page (`position: absolute; left: 0; top: 0; width: 100%; ...`).
+  - Remove default margins/padding from `body` in print view.
+  - Ensure elements _not_ meant for printing (like controls, input) are explicitly hidden (`display: none !important;`) or have a `.no-print` class applied.
 
-## 5. Fasting History & Cheat Days
+  ```css
+  /* Example Print Styles in index.css */
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    #qr-code-print-area,
+    #qr-code-print-area * {
+      visibility: visible;
+    }
+    #qr-code-print-area {
+      position: absolute;
+      left: 5%; /* Add some margin */
+      top: 5%;
+      width: 90%; /* Adjust as needed */
+      height: auto;
+      margin: 0;
+      padding: 0;
+      display: flex; /* Center the canvas if smaller than container */
+      justify-content: center;
+      align-items: center;
+    }
+    /* Add this class to elements to hide during print */
+    .no-print {
+      display: none !important;
+    }
+  }
+  ```
 
-### History Tracking
+  _Apply `id="qr-code-print-area"` to the `div` rendered by `QRCodeDisplay.tsx`. Apply `className="no-print"` to `InputSection` and `ControlsSection`._
 
-- **Successful Fasts:** Each time a user completes the full fasting duration set in the settings, it's recorded as a successful fast.
-- **Duration Records:** The application tracks and displays the user's longest and shortest successfully completed fast durations.
-- **Data Storage:** Fasting history data (successful fasts, durations) is stored locally using Local Storage.
+## 7. UI/UX Guidelines
 
-### Cheat Days
+- **Layout:** Use Tailwind CSS for a responsive layout. Single column on small screens, potentially transitioning to two columns (e.g., controls/input left, QR code right) on larger screens (`md:` or `lg:` breakpoints).
+- **Feedback:** The QR code update should feel instantaneous. No complex loading states needed unless `inputText` becomes extremely large.
+- **Simplicity:** Keep the interface clean and focused. Avoid unnecessary visual elements. Use clear labels for all controls.
+- **Accessibility:** Use semantic HTML where appropriate. Ensure sufficient color contrast. Add ARIA attributes if necessary, especially for custom controls.
+- **Error Handling:** While basic, consider what happens if the QR code library fails (though unlikely for valid input). Display a simple error message in the QR code area.
 
-- **Weekly Allowance:** Users are allocated 2 "cheat days" per week.
-- **Manual Activation:** A dedicated button allows the user to consciously take a cheat day, bypassing the need to start a fast for that day.
-- **Automatic Consumption:** If a user stops an active fast before the set duration is complete, one cheat day is automatically consumed.
-- **Tracking:** The number of remaining cheat days for the current week is displayed and updated in the UI.
+## 8. Development & Build Scripts (Standard Vite)
 
-### Visualization
+- `bun install`: Install dependencies.
+- `bun run dev`: Start the development server with HMR.
+- `bun run build`: Create an optimized production build (in `/dist`).
+- `bun run preview`: Serve the production build locally for testing.
 
-- **Monthly Overview:** A bar graph is displayed at the bottom of the screen, visualizing the last 30 days.
-- **Daily Representation:** Each bar in the graph represents a single 24-hour period.
-- **Eating Window:** Within each daily bar, a thicker segment visually indicates the start and end times of the eating window for that day, based on the completed fast. Days where a cheat day was taken or no fast was recorded will be visually distinct.
+## 9. Icon Generation
 
-## 6. Conclusion
+To ensure consistent branding, the application uses an AI-generated `.svg` icon as the base for generating `.png` icons. The `.svg` icon is located in the `public/` directory and is used to create `.png` icons of various sizes for the PWA manifest.
 
-QR-Codie aims to provide a straightforward, user-friendly interface for managing intermittent fasting, with minimal distractions and dependencies. By leveraging modern web standards, Local Storage for persistence, and a clean React-based UI, the app ensures a delightful and responsive experience.
+### Steps to Generate Icons
+
+1. Place the AI-generated `.svg` icon in the `public/` directory. For example:
+
+   ```
+   public/icon.svg
+   ```
+
+2. Use the provided script to generate `.png` icons:
+
+   ```bash
+   ./scripts/convert-svg-to-png.sh
+   ```
+
+3. The script will generate `.png` icons in the `public/` directory with the required sizes (e.g., 192x192, 512x512) for the PWA manifest.
+
+### Example SVG Icon
+
+The `.svg` icon should be simple, scalable, and visually appealing. It can be generated using AI tools like DALL·E or MidJourney. Ensure the design aligns with the application's theme and branding.
+
+This specification provides a clear roadmap for building the QRCodie PWA.
