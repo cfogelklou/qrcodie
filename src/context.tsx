@@ -13,7 +13,7 @@ const AppContext = createContext<ContextType | undefined>(undefined);
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error('useCounter must be used within a CounterProvider');
+    throw new Error('useAppContext must be used within a AppContextProvider');
   }
   return context;
 };
