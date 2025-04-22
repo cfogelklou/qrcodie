@@ -104,15 +104,19 @@ function App() {
             }
           />
         </div>
-        <button className='action-button mb-4' onClick={handlePrint}>
-          Print QR Code
-        </button>
       </div>
-      <div
-        id='qr-code-print-area'
-        ref={containerRef}
-        className='flex justify-center items-center'
-      />
+      <div className='print-container'>
+        <div
+          id='qr-code-print-area'
+          ref={containerRef}
+          className='flex justify-center items-center'
+        ></div>
+        {/* Print‐only: show the user's input text beneath the QR code */}
+        <div className='print-only text-center mt-4'>{inputText}</div>
+      </div>
+      <button className='action-button mb-4 no-print' onClick={handlePrint}>
+        Print QR Code
+      </button>
     </div>
   );
 }

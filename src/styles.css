@@ -369,11 +369,11 @@ input::-webkit-inner-spin-button {
   body * {
     visibility: hidden;
   }
-  #qr-code-print-area,
-  #qr-code-print-area * {
+  .print-container,
+  .print-container * {
     visibility: visible;
   }
-  #qr-code-print-area {
+  .print-container {
     position: absolute;
     left: 0;
     top: 0;
@@ -381,10 +381,21 @@ input::-webkit-inner-spin-button {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   .no-print {
     display: none !important;
   }
+  .print-only {
+    display: block !important;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+}
+
+.print-only {
+  display: none;
 }
