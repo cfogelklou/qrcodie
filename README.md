@@ -27,7 +27,7 @@
 - **Build Tool:** Vite (latest stable version)
 - **Framework/Library:** React (v18+ using functional components and hooks)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS (Recommended for utility-first, responsive design.
+- **Styling:** Tailwind CSS 4.0+
 - **QR Code Generation Library:** **`qr-code-styling`**
   - **Reasoning:** This library is chosen for its high performance (renders to Canvas), extensive styling capabilities (dots, corners, gradients, colors, logos - though we'll start simple), and good compatibility with React/TypeScript.
 - **PWA Implementation:** `vite-plugin-pwa`

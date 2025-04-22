@@ -363,3 +363,28 @@ input::-webkit-inner-spin-button {
     font-size: 1rem;
   }
 }
+
+/* Print Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #qr-code-print-area,
+  #qr-code-print-area * {
+    visibility: visible;
+  }
+  #qr-code-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
