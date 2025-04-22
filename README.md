@@ -4,7 +4,7 @@
 
 **Project Name:** QRCodie
 
-**Description:** QRCodie is a modern, simple, and fast Progressive Web App (PWA) built using Vite, React, and TypeScript. Its primary function is to generate QR codes in real-time from user-provided text data. The application emphasizes ease of use, performance, and offers customization options including styling, scaling, and printing of the generated QR codes.
+**Description:** QRCodie is a modern, simple, and fast Progressive Web App (PWA) built using Vite, React, and TypeScript. Its primary function is to generate QR codes from user-provided text data. The application emphasizes ease of use, performance, and offers customization options including styling, scaling, and printing of the generated QR codes.
 
 **Target Platform:** Web (Desktop & Mobile), installable as a PWA.
 
@@ -27,15 +27,11 @@
 - **Build Tool:** Vite (latest stable version)
 - **Framework/Library:** React (v18+ using functional components and hooks)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS (Recommended for utility-first, responsive design. Configure `tailwind.config.js` and `postcss.config.js`).
+- **Styling:** Tailwind CSS (Recommended for utility-first, responsive design.
 - **QR Code Generation Library:** **`qr-code-styling`**
   - **Reasoning:** This library is chosen for its high performance (renders to Canvas), extensive styling capabilities (dots, corners, gradients, colors, logos - though we'll start simple), and good compatibility with React/TypeScript.
-- **PWA Implementation:** `vite-plugin-pwa` (Configure this plugin within `vite.config.ts` for manifest generation and service worker integration).
-- **State Management:** React Context API or Zustand for managing shared state (input text, size, style options) if prop drilling becomes complex, otherwise standard component state is sufficient for this simple app.
-
-## 4. Project Structure (Suggested)
-
-/public//icons/ # App icons (e.g., 192x192, 512x512) for PWA manifesticon-192x192.pngicon-512x512.pngfavicon.ico # Standard faviconmanifest.json # PWA manifest (can be auto-generated/managed by vite-plugin-pwa)/src//components/InputSection.tsx # Component containing the text input areaQRCodeDisplay.tsx # Component responsible for rendering the QR code canvasControlsSection.tsx # Component housing Scale, Style selectors, and Print button/hooks/useQRCode.ts # (Recommended) Custom hook encapsulating qr-code-styling logic/contexts/ # (Optional) If using Context API for state managementAppContext.tsx/styles/index.css # Main CSS file including Tailwind directives (@tailwind base; @tailwind components; @tailwind utilities;) and print styles/lib/ # Utility functions or constants if neededqrStyles.ts # (Optional) Define style presetsApp.tsx # Main application component: layout, state orchestrationmain.tsx # Application entry point (renders App)/vite.config.ts # Vite configuration (React plugin, PWA plugin)/tailwind.config.js # Tailwind CSS configuration/postcss.config.js # PostCSS configuration (for Tailwind)/tsconfig.json # TypeScript configuration/tsconfig.node.json # TypeScript Node configuration (for Vite config)/package.json/.gitignoreREADME.md # This file
+- **PWA Implementation:** `vite-plugin-pwa`
+- **State Management:** React Context API for managing shared state (input text, size, style options) if prop drilling becomes complex, otherwise standard component state is sufficient for this simple app.
 
 ## 5. Component Specifications
 
@@ -115,7 +111,7 @@
 ### 6.2. Printing
 
 - The `onPrint` function (likely defined in `App.tsx` and passed to `ControlsSection`) should simply call `window.print()`.
-- Crucially, define print-specific CSS using `@media print` in `src/styles/index.css`:
+- Crucially, define print-specific CSS using `@media print` in `src/styles.css`:
 
   - Hide all elements by default (`body * { visibility: hidden; }`).
   - Make the QR code container (`#qr-code-print-area`) and its contents visible (`visibility: visible;`).
@@ -124,7 +120,7 @@
   - Ensure elements _not_ meant for printing (like controls, input) are explicitly hidden (`display: none !important;`) or have a `.no-print` class applied.
 
   ```css
-  /* Example Print Styles in index.css */
+  /* Example Print Styles in styles.css */
   @media print {
     body * {
       visibility: hidden;
@@ -191,6 +187,4 @@ To ensure consistent branding, the application uses an AI-generated `.svg` icon 
 
 ### Example SVG Icon
 
-The `.svg` icon should be simple, scalable, and visually appealing. It can be generated using AI tools like DALL·E or MidJourney. Ensure the design aligns with the application's theme and branding.
-
-This specification provides a clear roadmap for building the QRCodie PWA.
+The `.svg` icon should be simple, scalable, and visually appealing.
