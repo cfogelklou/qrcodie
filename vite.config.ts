@@ -15,7 +15,7 @@ export default defineConfig({
       manifest: {
         name: 'QRCodie',
         short_name: 'QRCodie',
-        description: 'A simple intermittent-fasting PWA.',
+        description: 'A free online QR code generator for creating custom QR codes from text or URLs.',
         start_url: '.',
         display: 'standalone',
         theme_color: '#ffffff',
