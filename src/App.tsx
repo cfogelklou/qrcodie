@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import QRCodeStyling, { type Options, type DotType } from 'qr-code-styling';
 import './styles.css';
+import { AdBanner } from './components/AdBanner';
 
 function App() {
   const [inputText, setInputText] = useState('');
@@ -117,6 +118,11 @@ function App() {
       <button className='action-button mb-4 no-print' onClick={handlePrint}>
         Print QR Code
       </button>
+
+      {/* Manual AdSense Banner */}
+      <div className="no-print ad-banner-wrapper" style={{ width: '100%', padding: '1rem 0' }}>
+        <AdBanner orientation="portrait" height={90} width={1200} />
+      </div>
     </div>
   );
 }

@@ -399,3 +399,9 @@ input::-webkit-inner-spin-button {
 .print-only {
   display: none;
 }
+
+@media (max-height: 500px) {
+  .ad-banner-wrapper {
+    display: none !important;
+  }
+}
