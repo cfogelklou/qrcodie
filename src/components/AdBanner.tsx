@@ -27,7 +27,7 @@ const rootStyle: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   overflow: 'hidden',
-  backgroundColor: 'rgba(0, 0, 0, 0.25)',
+  backgroundColor: 'transparent',
   margin: '0 auto',
 };
 
