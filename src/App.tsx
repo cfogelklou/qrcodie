@@ -217,7 +217,7 @@ function App() {
             {!hasContent && (
               <p className='qr-hint' role='status'>
                 Your QR code appears here
-                <span className='qr-hint-sub'>Type text or a URL on the left to get started.</span>
+                <span className='qr-hint-sub'>Type text or a URL to get started.</span>
               </p>
             )}
             {/* Print-only: show the user's input text beneath the QR code */}
