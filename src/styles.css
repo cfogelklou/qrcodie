@@ -459,18 +459,12 @@ input[type='range']::-moz-range-thumb {
   color: var(--accent);
 }
 
-/* ------ Footnote & ad ------ */
+/* ------ Footnote ------ */
 .app-footnote {
   margin-top: 1.5rem;
   text-align: center;
   font-size: 0.8125rem;
   color: var(--fg-muted);
-}
-
-.ad-slot {
-  margin-top: 1.25rem;
-  width: 100%;
-  padding: 0.25rem 0;
 }
 
 /* ------ Print ------ */
@@ -513,11 +507,5 @@ input[type='range']::-moz-range-thumb {
     margin-top: 1rem;
     font-size: 1rem;
     color: #000;
-  }
-}
-
-@media (max-height: 500px) {
-  .ad-slot {
-    display: none !important;
   }
 }

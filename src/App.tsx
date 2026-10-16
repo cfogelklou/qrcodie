@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import QRCodeStyling, { type Options, type DotType } from 'qr-code-styling';
 import './styles.css';
-import { AdBanner } from './components/AdBanner';
 
 const DOT_STYLES: ReadonlyArray<{ value: DotType; label: string }> = [
   { value: 'square', label: 'Square' },
@@ -244,10 +243,6 @@ function App() {
         Codes are generated entirely in your browser — nothing you type is uploaded anywhere.
       </p>
 
-      {/* Manual AdSense Banner */}
-      <div className='no-print ad-slot'>
-        <AdBanner orientation='portrait' height={90} width={1200} />
-      </div>
     </div>
   );
 }
