@@ -109,7 +109,7 @@ function App() {
           <h1>QRCodie</h1>
         </div>
         <p className='app-tagline'>
-          Turn any text or URL into a custom QR code — live in your browser, ready to print or download.
+          Turn any text or URL into a custom QR code right in your browser, ready to print or download.
         </p>
       </header>
 
@@ -240,7 +240,7 @@ function App() {
       </div>
 
       <p className='app-footnote no-print'>
-        Codes are generated entirely in your browser — nothing you type is uploaded anywhere.
+        Codes are generated entirely in your browser. Nothing you type is uploaded anywhere.
       </p>
 
     </div>
